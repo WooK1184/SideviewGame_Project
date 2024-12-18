@@ -1,31 +1,100 @@
-import { sendEvent } from "./Socket.js";
+import { sendEvent, socket } from "./Socket.js";
 
 class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageChange = true;
+  currentStage = 1000;
+  scorePerSecond = 1;
+  stageChangeInProgress = false;
+  stages = [];
 
-  constructor(ctx, scaleRatio) {
+  constructor(ctx, scaleRatio, itemController) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.scaleRatio = scaleRatio;
+    this.itemController = itemController;
+    this.initializeSocket();
+  }
+
+  initializeSocket() {
+    socket.on('response', (data) => {
+      console.log('received response:', data);
+      
+      if (data.status === 'success') {
+        if (data.stageData) {
+          this.stages = data.stageData;
+          console.log('Received stage data:', this.stages);
+        }
+        
+        if (data.stageItems) {
+          console.log('Received stageItems:', data.stageItems);
+          this.itemController.setStageItems(data.stageItems);
+        } else {
+          console.log('No stageItems in response');
+        }
+        
+        if (data.stage) {
+          const prevStage = this.currentStage;
+          this.currentStage = data.stage.id;
+          this.scorePerSecond = Number(data.stage.scorePerSecond);
+          this.stageChangeInProgress = false;
+          
+          this.itemController.setStage(this.currentStage);
+          
+          console.log('=== Stage Change ===');
+          console.log(`Previous Stage: ${prevStage}`);
+          console.log(`New Stage: ${this.currentStage}`);
+          console.log(`New Score Per Second: ${this.scorePerSecond}`);
+          console.log('==================');
+        }
+
+        if (data.score && data.itemId) {
+          this.score += data.score;
+          console.log(`아이템 획득! ID: ${data.itemId}, 점수: +${data.score}`);
+        }
+      } else if (data.status === 'fail') {
+        this.stageChangeInProgress = false;
+      }
+    });
   }
 
   update(deltaTime) {
-    this.score += deltaTime * 0.001;
-    // 점수가 100점 이상이 될 시 서버에 메세지 전송
-    if (Math.floor(this.score) === 100 && this.stageChange) {
-      this.stageChange = false;
-      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
-    }
-  }
+    this.score += (deltaTime * 0.001) * this.scorePerSecond;
+    const currentScore = Math.floor(this.score);
+    
+    if (!this.stageChangeInProgress && this.stages.length > 0) {
+      const nextStage = this.stages.find((stage, index) => {
+        const nextStageScore = this.stages[index + 1]?.score || Infinity;
+        return currentScore >= stage.score && currentScore < nextStageScore;
+      });
 
-  getItem(itemId) {
-    this.score += 0;
+      if (nextStage && 
+          nextStage.id !== this.currentStage && 
+          nextStage.id <= this.stages[this.stages.length - 1].id) {
+        this.stageChangeInProgress = true;
+        sendEvent(11, { 
+          currentStage: this.currentStage,
+          targetStage: nextStage.id,
+          score: currentScore
+        });
+      }
+    }
   }
 
   reset() {
     this.score = 0;
+    this.currentStage = 1000;
+    this.scorePerSecond = 1;
+    this.stageChangeInProgress = false;
+  }
+
+
+  getItem(itemId) {
+    if (!this.stageChangeInProgress) {
+        sendEvent(12, { 
+            itemId: itemId
+        });
+    }
   }
 
   setHighScore() {

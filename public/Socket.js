@@ -25,4 +25,4 @@ const sendEvent = (handlerId, payload) => {
     });
 };
 
-export { sendEvent };
+export { sendEvent, socket };

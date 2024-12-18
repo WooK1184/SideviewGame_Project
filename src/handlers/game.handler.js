@@ -2,15 +2,24 @@ import { getGameAssets } from "../init/assets.js";
 import { clearStage, getStage, setStage } from "../models/stage.model.js";
 
 export const gameStart = (uuid, payload) => {
+    const { stages, itemUnlocks } = getGameAssets();
     
-    const { stages } = getGameAssets();
-
+    console.log('Loading game assets:', { stages, itemUnlocks });
+    
     clearStage(uuid);
-
-    setStage(uuid, stages.data[0].id, payload.timestamp);
-    console.log('Stage: ', getStage(uuid));
-
-    return { status: 'success' };
+    
+    const initialStage = stages.data[0];
+    setStage(uuid, initialStage.id, payload.timestamp);
+    
+    return { 
+        status: 'success',
+        stage: {
+            id: initialStage.id,
+            scorePerSecond: initialStage.scorePerSecond
+        },
+        stageData: stages.data,
+        stageItems: itemUnlocks
+    };
 }
 
 export const gameEnd = () => {

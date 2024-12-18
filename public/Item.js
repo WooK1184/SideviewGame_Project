@@ -10,7 +10,9 @@ class Item {
     }
 
     update(speed, gameSpeed, deltaTime, scaleRatio) {
-        this.x -= speed * gameSpeed * deltaTime * scaleRatio;
+                // 속도를 조절하는 방법 1: 속도 계수 추가
+        const speedMultiplier = 0.5; // 0.5배 속도
+        this.x -= gameSpeed * deltaTime * scaleRatio * speedMultiplier;
     }
 
     draw() {

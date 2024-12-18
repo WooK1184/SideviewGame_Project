@@ -103,9 +103,9 @@ function createSprites() {
     };
   });
 
-  itemController = new ItemController(ctx, itemImages, scaleRatio, GROUND_SPEED);
+  itemController = new ItemController(ctx, itemImages, scaleRatio, GAME_SPEED_START);
 
-  score = new Score(ctx, scaleRatio);
+  score = new Score(ctx, scaleRatio, itemController);
 }
 
 function getScaleRatio() {
@@ -165,6 +165,8 @@ function reset() {
   cactiController.reset();
   score.reset();
   gameSpeed = GAME_SPEED_START;
+  
+  // 게임 시작 시 타임스탬프 포함
   sendEvent(2, { timestamp: Date.now() });
 }
 
@@ -240,7 +242,7 @@ function gameLoop(currentTime) {
   requestAnimationFrame(gameLoop);
 }
 
-// 게임 프레임을 다시 그리는 메서드
+// 게임 프레임�� 다시 그리는 메서드
 requestAnimationFrame(gameLoop);
 
 window.addEventListener('keyup', reset, { once: true });
