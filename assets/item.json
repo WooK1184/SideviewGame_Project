@@ -4,27 +4,33 @@
     "data": [
         {
             "id": 1,
-            "score": 5
+            "score": 5,
+            "spawnInterval": 5
         },
         {
             "id": 2,
-            "score": 10
+            "score": 10,
+            "spawnInterval": 5
         },
         {
             "id": 3,
-            "score": 15
+            "score": 15,
+            "spawnInterval": 5
         },
         {
             "id": 4,
-            "score": 20
+            "score": 20,
+            "spawnInterval": 5
         },
         {
             "id": 5,
-            "score": 25
+            "score": 25,
+            "spawnInterval": 5
         },
         {
             "id": 6,
-            "score": 30
+            "score": 30,
+            "spawnInterval": 5
         }
     ]
 }
