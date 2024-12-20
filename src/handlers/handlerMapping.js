@@ -3,6 +3,7 @@ import { highScoreHandler } from "./hiscore.handler.js";
 import { itemHandler } from "./item.handler.js";
 import { movesStageHandler } from "./stage.handler.js";
 
+
 const handlerMappings = {
     2: gameStart,
     3: gameEnd,
