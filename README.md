@@ -30,7 +30,7 @@ For building and running the application you need:
 
 ```
 $ git clone https://github.com/WooK1184/SideviewGame_Project.git
-$ cd SideviewGame_Projec
+$ cd SideviewGame_Project
 ```
 #### Run Method
 ```
