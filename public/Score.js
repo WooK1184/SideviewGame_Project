@@ -23,7 +23,6 @@ class Score {
       if (data.status === 'success') {
         if (data.stageData) {
           this.stages = data.stageData;
-          console.log('Received stage data:', this.stages);
         }
         
         if (data.stageItems) {
@@ -69,7 +68,6 @@ class Score {
           nextStage.id !== this.currentStage && 
           nextStage.id <= this.stages[this.stages.length - 1].id) {
         this.stageChangeInProgress = true;
-        console.log(`Requesting stage change at score ${currentScore} to stage ${nextStage.id}`);
         sendEvent(11, { 
           currentStage: this.currentStage,
           targetStage: nextStage.id,

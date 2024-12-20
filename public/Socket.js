@@ -10,6 +10,7 @@ const socket = io('http://54.180.145.200:3000', {
     },
 });
 
+
 // 유저 ID 체크 및 초기화
 const checkAndInitUser = () => {
     const userId = localStorage.getItem(USER_ID_KEY);
@@ -55,7 +56,6 @@ socket.on('response', (data) => {
 });
 
 socket.on('connection', (data) => {
-    console.log('connection: ', data);
     if (!userId) {
         // 새로운 유저 정보 저장
         userId = data.uuid;
