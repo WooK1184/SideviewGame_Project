@@ -3,9 +3,11 @@ import Item from "./Item.js";
 class ItemController {
     INTERVAL_MIN = 0;
     INTERVAL_MAX = 12000;
+    FINAL_STAGE = 1006;
 
     nextInterval = null;
     items = [];
+    // lastSpawnTime = new Map(); 난이도 up 부분
     currentStage = 1000;
     stageItemUnlocks = null;  // 스테이지별 아이템 데이터
 
@@ -15,7 +17,10 @@ class ItemController {
         this.itemImages = itemImages;
         this.scaleRatio = scaleRatio;
         this.speed = speed;
-        this.setNextItemTime();
+        
+        this.itemImages.forEach(item => {
+            this.lastSpawnTime.set(item.id, 0);
+        });
     }
 
     setStageItems(stageItemUnlocks) {
@@ -49,6 +54,12 @@ class ItemController {
         const stageInfo = this.stageItemUnlocks.data.find(
             stage => stage.stage_id === this.currentStage
         );
+        // 마지막 스테이지 이후라면 마지막 스테이지의 아이템 정보 사용
+        if (!stageInfo && this.currentStage > this.FINAL_STAGE) {
+            stageInfo = this.stageItemUnlocks.data.find(
+                stage => stage.stage_id === this.FINAL_STAGE
+            );
+        }
 
         console.log('Creating item for stage:', this.currentStage);
         console.log('Stage info found:', stageInfo);

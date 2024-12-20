@@ -11,6 +11,9 @@ const registerHandler = (io) => {
         const userUUID = uuidv4();
         addUser({ uuid: userUUID, socketId: socket.id });
 
+        //클라이언트에게 uuid 전달
+        socket.emit('connection', {uuid: userUUID})
+
         handleConnection(socket, userUUID);
 
 

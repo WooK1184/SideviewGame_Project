@@ -35,8 +35,11 @@ export const handlerEvent = (io, socket, data) => {
     const response = handler(data.userId, data.payload);
 
     if (response.broadcast) {
-        io.emit('response', 'broadcast');
-        return;
+        io.emit('response', {
+            status: 'success',
+            type: 'highscore_update',
+            highScore: response.highScore
+        });
     }
 
     socket.emit('response', response);

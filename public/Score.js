@@ -18,7 +18,7 @@ class Score {
 
   initializeSocket() {
     socket.on('response', (data) => {
-      console.log('received response:', data);
+      console.log('Received response:', data);
       
       if (data.status === 'success') {
         if (data.stageData) {
@@ -27,10 +27,7 @@ class Score {
         }
         
         if (data.stageItems) {
-          console.log('Received stageItems:', data.stageItems);
           this.itemController.setStageItems(data.stageItems);
-        } else {
-          console.log('No stageItems in response');
         }
         
         if (data.stage) {
@@ -72,6 +69,7 @@ class Score {
           nextStage.id !== this.currentStage && 
           nextStage.id <= this.stages[this.stages.length - 1].id) {
         this.stageChangeInProgress = true;
+        console.log(`Requesting stage change at score ${currentScore} to stage ${nextStage.id}`);
         sendEvent(11, { 
           currentStage: this.currentStage,
           targetStage: nextStage.id,
