@@ -69,7 +69,6 @@ class Score {
           nextStage.id !== this.currentStage && 
           nextStage.id <= this.stages[this.stages.length - 1].id) {
         this.stageChangeInProgress = true;
-        console.log(`Requesting stage change at score ${currentScore} to stage ${nextStage.id}`);
         sendEvent(11, { 
           currentStage: this.currentStage,
           targetStage: nextStage.id,
