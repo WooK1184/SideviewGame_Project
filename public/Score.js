@@ -23,7 +23,6 @@ class Score {
       if (data.status === 'success') {
         if (data.stageData) {
           this.stages = data.stageData;
-          console.log('Received stage data:', this.stages);
         }
         
         if (data.stageItems) {
