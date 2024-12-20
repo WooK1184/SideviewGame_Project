@@ -56,7 +56,6 @@ socket.on('response', (data) => {
 });
 
 socket.on('connection', (data) => {
-    console.log('connection: ', data);
     if (!userId) {
         // 새로운 유저 정보 저장
         userId = data.uuid;
