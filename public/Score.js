@@ -112,6 +112,10 @@ class Score {
     this.ctx.font = `${fontSize}px serif`;
     this.ctx.fillStyle = '#525250';
 
+    // 스테이지 표시 (왼쪽)
+    const stageX = 25 * this.scaleRatio;
+    this.ctx.fillText(`STAGE ${this.currentStage - 999}`, stageX, y); // 1000을 Stage 1로 표시하기 위해 999를 뺌
+
     const scoreX = this.canvas.width - 75 * this.scaleRatio;
     const highScoreX = scoreX - 125 * this.scaleRatio;
 
