@@ -7,7 +7,7 @@ class ItemController {
 
     nextInterval = null;
     items = [];
-    // lastSpawnTime = new Map(); 난이도 up 부분
+    lastSpawnTime = new Map();
     currentStage = 1000;
     stageItemUnlocks = null;  // 스테이지별 아이템 데이터
 
