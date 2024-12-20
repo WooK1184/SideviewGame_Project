@@ -10,7 +10,6 @@ export const handleDisconnect = (socket, uuid) => {
     console.log('Current Users: ' + getUser());
 }
 
-
 export const handleConnection = (socket, uuid) => {
     console.log(`New User Connect: ${uuid} with socket ID: ${socket.id}`);
     console.log('Current users: ', getUser());
