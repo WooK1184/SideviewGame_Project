@@ -4,7 +4,7 @@ const USER_ID_KEY = 'userId';
 const USER_CREATED_KEY = 'userCreatedAt';
 const HIGH_SCORE_KEY = 'highScore';
 
-const socket = io('http://localhost:3000', {
+const socket = io('http://54.180.145.200:3000', {
     query: {
         clientVersion: CLIENT_VERSION,
     },
@@ -45,7 +45,7 @@ socket.on('response', (data) => {
         // 최고점수 보유자인 경우
         if (data.userId === userId) {
             console.log('최고기록 보유중입니다!');
-            console.log(`게임 접속 링크: http://localhost:3000/${userId}`);
+            console.log(`게임 접속 링크: http://54.180.145.200:3000/${userId}`);
         }
     }
 });
